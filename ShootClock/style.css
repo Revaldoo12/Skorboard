@@ -1,0 +1,374 @@
+:root {
+  --red: #ff3b1f;
+  --amber: #ffb300;
+  --off: rgba(255, 255, 255, 0.05);   /* segmen LED yang mati */
+
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --label: "Arial Narrow", "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0e0e0e;
+  color: #eee;
+  font-family: var(--ui);
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px 16px 32px; }
+
+/* ================= HEADER / PROFILE EVENT ================= */
+.event {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  background: #151515;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+}
+
+.event-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.event-title {
+  width: 100%;
+  padding: 2px 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #f2f2f2;
+  font: 700 clamp(20px, 3vw, 32px) var(--label);
+  font-stretch: condensed;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.event-sub {
+  width: 100%;
+  padding: 1px 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #9a9a9a;
+  font: 600 clamp(12px, 1.6vw, 15px) var(--label);
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.event-title:hover, .event-sub:hover { border-color: #333; }
+.event-title:focus, .event-sub:focus { outline: none; border-color: #777; background: #0b0b0b; }
+.event-sub:placeholder-shown { color: #555; }
+
+@media (max-width: 760px) {
+  .event { gap: 12px; padding: 12px 14px; }
+}
+
+/* ================= PAPAN SKOR ================= */
+.board {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "home middle away";
+  gap: 24px 32px;
+  align-items: start;
+  padding: 28px 32px;
+  background: #151515;
+  border: 1px solid #2a2a2a;
+  border-top-color: #353535;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+.home   { grid-area: home; }
+.middle { grid-area: middle; }
+.away   { grid-area: away; }
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.team-name {
+  width: 100%;
+  padding: 2px 4px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: #f2f2f2;
+  font: 700 clamp(18px, 2.4vw, 30px) var(--label);
+  font-stretch: condensed;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.team-name:hover { border-bottom-color: #444; }
+.team-name:focus { outline: none; border-bottom-color: #888; }
+
+.cap {
+  color: #cfcfcf;
+  font: 700 13px var(--label);
+  font-stretch: condensed;
+  letter-spacing: 0.08em;
+}
+
+.panel {
+  display: inline-flex;
+  justify-content: center;
+  padding: 12px 16px;
+  background: #050505;
+  border: 1px solid #262626;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+.panel.small { padding: 8px 10px; }
+
+.sub { display: flex; align-items: center; gap: 10px; }
+
+.lamp {
+  padding: 3px 6px;
+  border: 1px solid #2a2a2a;
+  border-radius: 3px;
+  color: #3a3a3a;
+  font: 700 11px var(--label);
+  letter-spacing: 0.06em;
+}
+.lamp.on { color: #111; background: var(--amber); border-color: var(--amber); }
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.period-row { display: flex; align-items: center; gap: 18px; }
+.period-unit { display: flex; align-items: center; gap: 10px; }
+.shot-unit { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* panah penguasaan bola */
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+}
+.arrow.left  { border-right: 20px solid #2a2a2a; }
+.arrow.right { border-left: 20px solid #2a2a2a; }
+.arrow.left.on  { border-right-color: var(--amber); }
+.arrow.right.on { border-left-color: var(--amber); }
+
+/* ================= DIGIT 7-SEGMEN ================= */
+/* Semua ukuran pakai em, jadi cukup ubah font-size untuk mengubah besar digit */
+.led {
+  --on: var(--red);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  transform: skewX(-5deg);
+}
+.led.amber { --on: var(--amber); }
+
+.led-score { font-size: clamp(56px, 9vw, 128px); }
+.led-clock { font-size: clamp(52px, 8vw, 112px); }
+.led-shot  { font-size: clamp(44px, 6vw, 80px); }
+.led-small { font-size: clamp(28px, 3vw, 42px); }
+
+.dg { position: relative; flex: none; width: 0.54em; height: 1em; }
+
+.dg i { position: absolute; background: var(--off); }
+.dg i.on, .sep i.on {
+  background: var(--on);
+  box-shadow: 0 0 0.08em color-mix(in srgb, var(--on) 45%, transparent);
+}
+
+/* segmen horizontal: a (atas), g (tengah), d (bawah) */
+.sa, .sg, .sd {
+  left: 0.05em;
+  right: 0.05em;
+  height: 0.1em;
+  clip-path: polygon(0.05em 0, calc(100% - 0.05em) 0, 100% 50%, calc(100% - 0.05em) 100%, 0.05em 100%, 0 50%);
+}
+.sa { top: 0; }
+.sg { top: 0.45em; }
+.sd { bottom: 0; }
+
+/* segmen vertikal: f (kiri atas), b (kanan atas), e (kiri bawah), c (kanan bawah) */
+.sf, .sb, .se, .sc {
+  width: 0.1em;
+  height: 0.45em;
+  clip-path: polygon(50% 0, 100% 0.05em, 100% calc(100% - 0.05em), 50% 100%, 0 calc(100% - 0.05em), 0 0.05em);
+}
+.sf { left: 0;  top: 0.05em; }
+.sb { right: 0; top: 0.05em; }
+.se { left: 0;  bottom: 0.05em; }
+.sc { right: 0; bottom: 0.05em; }
+
+/* titik dua & titik desimal */
+.sep { position: relative; flex: none; width: 0.2em; height: 1em; }
+.sep i {
+  position: absolute;
+  left: 0.05em;
+  width: 0.1em;
+  height: 0.1em;
+  border-radius: 50%;
+  background: var(--off);
+}
+.colon i:first-child { top: 0.28em; }
+.colon i:last-child  { top: 0.64em; }
+.dot i { bottom: 0; }
+
+/* ================= PANEL OPERATOR ================= */
+.console {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #1b1b1b;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+}
+
+.group h2 {
+  margin-bottom: 2px;
+  color: #9a9a9a;
+  font: 700 13px var(--label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.row { display: grid; gap: 8px; }
+.row.two   { grid-template-columns: 1fr 1fr; }
+.row.three { grid-template-columns: repeat(3, 1fr); }
+
+.console button {
+  padding: 12px 8px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  color: #eee;
+  font: 600 15px var(--ui);
+  cursor: pointer;
+}
+.console button:hover  { background: #333; }
+.console button:active { background: #222; transform: translateY(1px); }
+
+.console .pts { font-size: 20px; font-weight: 700; }
+
+.console .muted { background: transparent; color: #bbb; }
+.console .muted:hover { background: #242424; }
+.console .danger:hover { border-color: #a33; color: #f66; }
+
+.console .big { padding: 16px; font-size: 18px; letter-spacing: 0.04em; }
+.console .go   { background: #2f7d32; border-color: #2f7d32; color: #fff; }
+.console .go:hover { background: #358f39; }
+.console .stop { background: #b23a2a; border-color: #b23a2a; color: #fff; }
+.console .stop:hover { background: #c4402e; }
+
+/* tampilkan Start ATAU Stop */
+#btn-pause { display: none; }
+body.is-running #btn-start { display: none; }
+body.is-running #btn-pause { display: block; }
+
+/* ================= PENGATURAN WAKTU ================= */
+.settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #1b1b1b;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+}
+
+.set-label {
+  color: #9a9a9a;
+  font: 700 13px var(--label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.time-input { display: flex; align-items: center; gap: 4px; color: #888; font-size: 20px; }
+.time-input input {
+  width: 64px;
+  padding: 8px 6px;
+  background: #050505;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  color: var(--amber);
+  font: 700 22px ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.time-input input::-webkit-outer-spin-button,
+.time-input input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.time-input input:focus { outline: none; border-color: var(--amber); }
+
+.settings button {
+  padding: 9px 12px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  color: #eee;
+  font: 600 14px var(--ui);
+  cursor: pointer;
+}
+.settings button:hover { background: #333; }
+.settings .apply { background: #e0a000; border-color: #e0a000; color: #111; }
+.settings .apply:hover { background: #f0b000; }
+
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { background: transparent; color: #bbb; }
+.presets button.active { border-color: var(--amber); color: var(--amber); }
+
+.set-msg { color: #888; font-size: 13px; }
+.set-msg.err { color: #f66; }
+
+.keys {
+  margin-top: 14px;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+kbd {
+  padding: 1px 6px;
+  background: #1b1b1b;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #bbb;
+  font: 12px var(--ui);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 760px) {
+  .wrap { padding: 12px 10px 24px; }
+  .board {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "middle middle"
+      "home   away";
+    padding: 20px 14px;
+    gap: 20px 12px;
+  }
+  .sub { flex-wrap: wrap; justify-content: center; }
+
+  .console { grid-template-columns: 1fr 1fr; }
+  .console .main { grid-column: 1 / -1; order: -1; }
+  .keys { display: none; }
+}

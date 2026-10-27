@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scoreboard Basket</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ===== HEADER / PROFILE EVENT ===== -->
+    <header class="event" id="event-header">
+      <div class="event-text">
+        <input class="event-title" id="event-title" value="NAMA EVENT" maxlength="40"
+               placeholder="Nama event" aria-label="Judul event" />
+        <input class="event-sub" id="event-sub" value="" maxlength="50"
+               placeholder="Subjudul (opsional)" aria-label="Subjudul event" />
+      </div>
+    </header>
+
+    <!-- ===== PAPAN SKOR ===== -->
+    <div class="board">
+      <section class="side home">
+        <input class="team-name" data-team="home" value="HOME" maxlength="12" aria-label="Nama tim home" />
+        <div class="panel"><div class="led red led-score" id="score-home"></div></div>
+        <div class="sub">
+          <span class="cap">FOULS</span>
+          <div class="panel small"><div class="led amber led-small" id="foul-home"></div></div>
+          <span class="lamp" id="penalty-home">PENALTI</span>
+        </div>
+      </section>
+
+      <section class="middle">
+        <div class="panel"><div class="led amber led-clock" id="game-clock"></div></div>
+
+        <div class="period-row">
+          <span class="arrow left" id="poss-home" title="Bola: home"></span>
+          <div class="period-unit">
+            <span class="cap">PERIOD</span>
+            <div class="panel small"><div class="led amber led-small" id="period"></div></div>
+            <span class="lamp" id="ot-lamp">OT</span>
+          </div>
+          <span class="arrow right" id="poss-away" title="Bola: guest"></span>
+        </div>
+
+        <div class="shot-unit">
+          <span class="cap">SHOT CLOCK</span>
+          <div class="panel"><div class="led red led-shot" id="shot-clock"></div></div>
+        </div>
+      </section>
+
+      <section class="side away">
+        <input class="team-name" data-team="away" value="GUEST" maxlength="12" aria-label="Nama tim guest" />
+        <div class="panel"><div class="led red led-score" id="score-away"></div></div>
+        <div class="sub">
+          <span class="lamp" id="penalty-away">PENALTI</span>
+          <div class="panel small"><div class="led amber led-small" id="foul-away"></div></div>
+          <span class="cap">FOULS</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== PANEL OPERATOR ===== -->
+    <div class="console">
+      <div class="group">
+        <h2 id="label-home">HOME</h2>
+        <div class="row three">
+          <button class="pts" data-team="home" data-pts="1">+1</button>
+          <button class="pts" data-team="home" data-pts="2">+2</button>
+          <button class="pts" data-team="home" data-pts="3">+3</button>
+        </div>
+        <div class="row three">
+          <button class="muted" data-team="home" data-pts="-1">−1</button>
+          <button data-foul="home" data-delta="1">Foul +</button>
+          <button class="muted" data-foul="home" data-delta="-1">Foul −</button>
+        </div>
+      </div>
+
+      <div class="group main">
+        <h2>Jam</h2>
+        <button id="btn-start" class="big go">Start</button>
+        <button id="btn-pause" class="big stop">Stop</button>
+        <div class="row two">
+          <button id="btn-shot-24">Shot 24</button>
+          <button id="btn-shot-14">Shot 14</button>
+        </div>
+        <div class="row three">
+          <button data-period="-1">Periode −</button>
+          <button id="btn-poss">Bola ⇄</button>
+          <button data-period="1">Periode +</button>
+        </div>
+        <div class="row two">
+          <button id="btn-reset-game" class="muted">Reset jam</button>
+          <button id="btn-reset-all" class="muted danger">Reset semua</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <h2 id="label-away">GUEST</h2>
+        <div class="row three">
+          <button class="pts" data-team="away" data-pts="1">+1</button>
+          <button class="pts" data-team="away" data-pts="2">+2</button>
+          <button class="pts" data-team="away" data-pts="3">+3</button>
+        </div>
+        <div class="row three">
+          <button class="muted" data-team="away" data-pts="-1">−1</button>
+          <button data-foul="away" data-delta="1">Foul +</button>
+          <button class="muted" data-foul="away" data-delta="-1">Foul −</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PENGATURAN WAKTU ===== -->
+    <form class="settings" id="time-form" autocomplete="off">
+      <span class="set-label">Durasi periode</span>
+      <div class="time-input">
+        <input id="set-min" type="number" inputmode="numeric" min="0" max="99" value="10" aria-label="Menit" />
+        <span>:</span>
+        <input id="set-sec" type="number" inputmode="numeric" min="0" max="59" value="00" aria-label="Detik" />
+      </div>
+      <button type="submit" class="apply">Pasang</button>
+      <div class="presets">
+        <button type="button" data-preset="5">5 mnt</button>
+        <button type="button" data-preset="8">8 mnt</button>
+        <button type="button" data-preset="10">10 mnt</button>
+        <button type="button" data-preset="12">12 mnt</button>
+        <button type="button" data-preset="20">20 mnt</button>
+      </div>
+      <span class="set-msg" id="set-msg"></span>
+    </form>
+
+    <p class="keys">
+      <kbd>Spasi</kbd> start/stop &nbsp; <kbd>Z</kbd> shot 24 &nbsp; <kbd>X</kbd> shot 14 &nbsp; <kbd>P</kbd> ganti bola
+    </p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
