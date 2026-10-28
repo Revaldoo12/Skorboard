@@ -28,7 +28,7 @@
         <div class="sub">
           <span class="cap">FOULS</span>
           <div class="panel small"><div class="led amber led-small" id="foul-home"></div></div>
-          <span class="lamp" id="penalty-home">PENALTI</span>
+          <span class="lamp" id="penalty-home">BONUS</span>
         </div>
       </section>
 
@@ -55,7 +55,7 @@
         <input class="team-name" data-team="away" value="GUEST" maxlength="12" aria-label="Nama tim guest" />
         <div class="panel"><div class="led red led-score" id="score-away"></div></div>
         <div class="sub">
-          <span class="lamp" id="penalty-away">PENALTI</span>
+          <span class="lamp" id="penalty-away">BONUS</span>
           <div class="panel small"><div class="led amber led-small" id="foul-away"></div></div>
           <span class="cap">FOULS</span>
         </div>
@@ -87,9 +87,9 @@
           <button id="btn-shot-14">Shot 14</button>
         </div>
         <div class="row three">
-          <button data-period="-1">Periode −</button>
+          <button data-period="-1">Period −</button>
           <button id="btn-poss">Bola ⇄</button>
-          <button data-period="1">Periode +</button>
+          <button data-period="1">Period +</button>
         </div>
         <div class="row two">
           <button id="btn-reset-game" class="muted">Reset jam</button>
@@ -114,7 +114,7 @@
 
     <!-- ===== PENGATURAN WAKTU ===== -->
     <form class="settings" id="time-form" autocomplete="off">
-      <span class="set-label">Durasi periode</span>
+      <span class="set-label">Durasi Period</span>
       <div class="time-input">
         <input id="set-min" type="number" inputmode="numeric" min="0" max="99" value="10" aria-label="Menit" />
         <span>:</span>
